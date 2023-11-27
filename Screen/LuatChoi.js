@@ -3,7 +3,7 @@ import { ImageBackground, Pressable, StyleSheet, Text, View, TouchableOpacity } 
 import AwesomeAlert from 'react-native-awesome-alerts';
 
 
-export default function LuatChoi({navigation}){
+export default function LuatChoi({navigation, route}){
     return(
         <View style={styles.container}>
              <ImageBackground
@@ -24,7 +24,9 @@ export default function LuatChoi({navigation}){
                 </View>
 
                 <View style={styles.bottom}>
-                    <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('ChoiGame')}>Bắt đầu</TouchableOpacity>
+                    <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('ChoiGame',{
+                        nameMain: route.params.nameMain
+                    })}>Bắt đầu</TouchableOpacity>
                 </View>
                 
             </ImageBackground>

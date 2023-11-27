@@ -6,25 +6,31 @@ export default function SignUp({ navigation }) {
   const [showPassword, setShowPassword] = useState(false);
   const [passWord, setPassWord] = useState('');
   const [useName, setUseName] = useState('');
+  const [txt, setTxt] = useState('');
 
   const handleSignUp = async () => {
     try {
-      // Make a POST request to create a new user
+
+      if (!useName || !passWord) {
+        // Hiển thị thông báo yêu cầu nhập đầy đủ thông tin
+        setTxt('Vui lòng nhập tên đăng nhập và mật khẩu');
+        return;
+    } 
+    
       const response = await axios.post('https://653f25b39e8bd3be29e0007b.mockapi.io/user', {
         user_name: useName,
         password: passWord,
         
       });
 
-      // Handle the response from the server
       if (response.status === 201) {
-        // Registration successful
-        Alert.alert('Success', 'User registered successfully');
+        // Đăng ký thành công
+        Alert.alert('Thành công', 'Người chơi đã được đăng ký thành công');
 
         navigation.navigate('Login');
       } else {
-        // Registration failed
-        Alert.alert('Error', 'Failed to register user');
+        // Đăng ký thất bại
+        Alert.alert('Thất bại', 'Đăng ký người chơi thất bại');
       }
     } catch (error) {
       console.error('Error during registration:', error);
@@ -38,7 +44,8 @@ export default function SignUp({ navigation }) {
       <SafeAreaView style={styles.container}>
         <View style={{ width: '100%', height: '50%', alignItems: 'center', justifyContent: 'center' }}>
           <Image style={{ width: '300px', height: '300px' }} source={require('..//assets/ALTP_LOGO_2021.png')} />
-          <Text style={{ fontSize: 40, color: 'white', textAlign: 'center' }}> Sign Up</Text>
+          <Text style={{ fontSize: 40, color: 'white', textAlign: 'center' }}>Đăng Ký</Text>
+          
         </View>
         <View style={{ width: '80%', height: '25%', alignItems: 'center', justifyContent: 'center' }}>
           <TextInput
@@ -65,8 +72,9 @@ export default function SignUp({ navigation }) {
         </View>
         <View style={{ width: '85%', height: '25%', alignItems: 'center', justifyContent: 'center' }}>
           <TouchableOpacity style={styles.button} onPress={handleSignUp}>
-            <Text style={{ fontSize: 20, color: 'white', textAlign: 'center' }}>Sign up</Text>
+            <Text style={{ fontSize: 20, color: 'white', textAlign: 'center' }}>Đăng Ký</Text>
           </TouchableOpacity>
+          <Text style={{fontSize: 12,color:'red',margin:2,textAlign: "center",}}>{txt}</Text>
         </View>
       </SafeAreaView>
     </ImageBackground>
@@ -103,12 +111,15 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   button: {
-    width: '60%',
-    height: '35%',
-    backgroundColor: '#0006CB',
-    borderRadius: 10,
+    color: 'white',
+    fontSize: '22px',
+    height: '50px',
+    backgroundColor: '#333399',
     justifyContent: 'center',
     alignItems: 'center',
-    margin: 5,
+    width: '300px',
+    marginBottom: '15px',
+    borderWidth: 1,
+    borderRadius: '10px'
   },
 });

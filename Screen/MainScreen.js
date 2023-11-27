@@ -6,9 +6,8 @@ import { useState } from 'react';
 import { FontAwesome5 } from '@expo/vector-icons'; 
 import { Feather } from '@expo/vector-icons'; 
 
-export default function MainScreen({navigation}){
-    const [showAlert, setShowAlert] = useState(false);
-    const [color, setChangeColor] = useState(false);
+export default function MainScreen({navigation, route}){
+    // const { user_name } = route.params;
     const message = `Bạn sẽ phải trả lời 15 câu hỏi của chương trình.` + 
     ` Bạn sẽ có 30s đầu tiên để trả lời câu hỏi, mỗi câu hỏi trả lời đúng sẽ được cộng thêm 10 giây`+
     ` và gọi điện thoại cho chuyên gia. Chúc bạn thành công!`
@@ -33,10 +32,10 @@ export default function MainScreen({navigation}){
                         style={styles.iconHead} 
                         source={require('../assets/userMan.png')}
                     >
-                    <Text style={styles.user}>Tên user</Text>
+                    <Text style={styles.user}>{route.params.user_name}</Text>
                     </ImageBackground>
                   
-                    <TouchableOpacity style={styles.bottomButton} onPress={() => alert('hi')}>
+                    <TouchableOpacity style={styles.bottomButton}>
                         <ImageBackground
                             style={styles.iconHead} 
                             source={require('../assets/setting.png')}
@@ -56,9 +55,17 @@ export default function MainScreen({navigation}){
                 </View>
 
                 <View style={styles.bottom}>
-                    <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('ChoiGame')}>Bắt Đầu</TouchableOpacity>
+                    <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('ChoiGame',{
+                        nameMain: route.params.user_name
+                    })}>Bắt Đầu</TouchableOpacity>
                     <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('DiemCao')}>Bảng Xếp Hạng</TouchableOpacity> 
-                    <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('LuatChoi')}>Luật Chơi</TouchableOpacity>
+                    <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('LuatChoi',{
+                        nameMain: route.params.user_name
+                    })}>Luật Chơi</TouchableOpacity>
+                    <TouchableOpacity style={styles.button} onPress={() => navigation.reset({
+                        index: 0,
+                        routes: [{name: 'Login'}]
+                    })} >Đăng Xuất</TouchableOpacity>
                 </View>
 
                 {/* <AwesomeAlert 

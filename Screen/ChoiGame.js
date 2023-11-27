@@ -3,7 +3,8 @@ import { ImageBackground, Pressable,Image, StyleSheet, Text, TouchableOpacity, V
 import {CountdownCircleTimer} from 'react-countdown-circle-timer'
 import { useState, useEffect } from 'react';
 import { BarChart } from 'react-native-chart-kit';
-export default function ChoiGame({navigation}){
+export default function ChoiGame({navigation, route}){
+
     const [showModal, setShowModal] = useState(false); 
     const [showModal2, setShowModal2] = useState(false);
     const [showModal3, setShowModal3] = useState(false);
@@ -50,7 +51,7 @@ export default function ChoiGame({navigation}){
         if (!buttonEnabled3) {
             return;         
         }
-        setButtonEnabled3(false);
+        setButtonEnabled4(false);
     };
 
     //Xử lý quyền trợ giúp 50/50
@@ -129,7 +130,7 @@ export default function ChoiGame({navigation}){
         setTimeout(() => {
             setShowModal3(false);
             }, 3000);
-            handleBottomButton1(selectedBottomButton3);
+            handleBottomButton3(selectedBottomButton3);
     };
     const handleBottomButtonPress4 = (selectedBottomButton4) => {
         setSelectedBottomButton4(selectedBottomButton4);
@@ -137,7 +138,7 @@ export default function ChoiGame({navigation}){
     };
     const handleTimerComplete = () => {
       setShowModal(true); // Hiển thị modal khi remainingTime = 0
-      addPost('huyhuy', score);
+      addPost(route.params.nameMain, score);
     };
 
     function addPost(userName, score){
@@ -302,7 +303,9 @@ export default function ChoiGame({navigation}){
                             <View style={styles.top2}>
                                 <Text style={styles.text2}>Trò chơi kết thúc</Text>
                                 <Text style={styles.text2}>Điểm của bạn là: {score}</Text>
-                                <TouchableOpacity style={styles.opa2} onPress={() => navigation.navigate('MainScreen')}>
+                                <TouchableOpacity style={styles.opa2} onPress={() => navigation.navigate('MainScreen',{
+                                    user_name: route.params.nameMain
+                                })}>
                                     <Text>Xác nhận</Text>
                                 </TouchableOpacity>
                             </View>

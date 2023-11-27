@@ -9,67 +9,74 @@ export default function Login({navigation}) {
 
     const handleLogin = async () => {
         try {
-          const response = await axios.get('https://653f25b39e8bd3be29e0007b.mockapi.io/user');
-          const users = response.data;
+            if (!useName || !passWord) {
+                // Hiển thị thông báo yêu cầu nhập đầy đủ thông tin
+                setTxt('Vui lòng nhập tên đăng nhập và mật khẩu');
+                return;
+            }
+
+
+            const response = await axios.get('https://653f25b39e8bd3be29e0007b.mockapi.io/user');
+            const users = response.data;
       
-          // Convert entered values to lowercase for case-insensitive comparison
-          const lowerCaseUsername = useName.toLowerCase();
-          const lowerCasePassword = passWord.toLowerCase();
+            // Chuyển user và password về dạng chuỗi không in hoa
+            const lowerCaseUsername = useName.toLowerCase();
+            const lowerCasePassword = passWord.toLowerCase();
       
-          // Find the user
-          const foundUser = users.find(user =>
-            user.user_name.toLowerCase() === lowerCaseUsername &&
-            user.password.toLowerCase() === lowerCasePassword
-          );
-      
-          if (foundUser) {
-            console.log('Login successful');
-            navigation.navigate('MainScreen',{ user_name: foundUser.user_name });
-          } else {
-            // Hiển thị thông báo lỗi
-            setTxt('Tên đăng nhập hoặc mật khẩu không đúng');
-          }
-        } catch (error) {
-          console.error('Error fetching data from API:', error);
-          // Handle other errors if needed
-        }
-      };
+            // Tìm kiếm người chơi có tồn tại hay không
+            const foundUser = users.find(user =>
+                user.user_name.toLowerCase() === lowerCaseUsername &&
+                user.password.toLowerCase() === lowerCasePassword
+            );
+        
+            if (foundUser) {
+                console.log('Đăng nhập thành công');
+                navigation.navigate('MainScreen',{ user_name: foundUser.user_name });
+            } else {
+                // Hiển thị thông báo lỗi
+                setTxt('Tên đăng nhập hoặc mật khẩu không đúng');
+            }
+            } catch (error) {
+            console.error('Error fetching data from API:', error);
+          
+            }
+        };
     return (
-        <ImageBackground style={{width: '100%',height: '100%',}} source={require('..//assets/gradient1.jpg')} zIndex={0}>
+        <ImageBackground style={{width: '100%',height: '100%',}} source={require('../assets/gradient1.jpg')} zIndex={0}>
             <SafeAreaView style={styles.container}>
             <View style={{width:'100%',height:'50%', alignItems:'center',justifyContent:'center'}}>
-                <Image style={{width:'300px',height:'300px'}}source={require('..//assets/ALTP_LOGO_2021.png')}/>
+                <Image style={{width:'300px',height:'300px'}}source={require('../assets/ALTP_LOGO_2021.png')}/>
             </View>
             <View style={{width:'80%',height:'25%', alignItems:'center',justifyContent:'center'}}>
                 <TextInput 
                     value={useName} 
                     onChangeText={(text) => setUseName(text)}
                     style={styles.TextInput_1}
-                    placeholder='UseName'/>
+                    placeholder='Nhập tên tài khoản' placeholderTextColor={'gray'}/>
                 <View style={styles.TextInput_2}>
                     <TextInput 
                         value={passWord}
                         onChangeText={(text) => setPassWord(text)}
-                        style={{ width: '70%', height: '100%', fontSize: 17 }}
+                        style={{ width: '70%', height: '100%', fontSize: 17, color: 'white' }}
                         autoCapitalize='none'
                         secureTextEntry={showPassword ? false : true}
-                        placeholder='PassWord'/>
+                        placeholder='Nhập mât khẩu' placeholderTextColor={'gray'}/>
                     <TouchableOpacity
                     onPress={() =>{
                         setShowPassword(!showPassword)
                     }}
                     >
-                    <Image style={{width:'25px',height:'25px'}}source={require('..//assets/anps.png')}/>
+                    <Image style={{width:'25px',height:'25px'}}source={require('../assets/anps.png')}/>
                 </TouchableOpacity>
                 </View>
             </View>
             <View style={{width:'85%',height:'25%', alignItems:'center',justifyContent:'center'}}>
                 <TouchableOpacity style={styles.button} onPress={handleLogin}>
-                    <Text style={{fontSize: 20,color:'white',textAlign: "center",}}>Login</Text>
+                    <Text style={{fontSize: 20,color:'white',textAlign: "center",}}>Đăng Nhập</Text>
                 </TouchableOpacity>
                 <Text style={{fontSize: 12,color:'red',margin:2,textAlign: "center",}}>{txt}</Text>
                 <TouchableOpacity style={styles.button} onPress={()=>{navigation.navigate('SignUp')}}>
-                    <Text style={{fontSize: 20,color:'white',textAlign: "center",}}>Sign up</Text>
+                    <Text style={{fontSize: 20,color:'white',textAlign: "center",}}>Đăng Ký</Text>
                 </TouchableOpacity>
             </View>
         </SafeAreaView>
@@ -91,6 +98,7 @@ const styles = StyleSheet.create({
         marginLeft:5,
         width: '100%',
         height: '30%',
+        color: 'white'
     },
     TextInput_2:{
         fontSize:17,
@@ -104,14 +112,18 @@ const styles = StyleSheet.create({
         height: '30%',
         flexDirection:'row',
         justifyContent:'space-between',
+        color: 'white'
     },
     button:{
-        width: '60%',
-        height:'35%',
-        backgroundColor:"#0006CB",
-        borderRadius: 10,
+        color: 'white',
+        fontSize: '22px',
+        height: '50px',
+        backgroundColor: '#333399',
         justifyContent: 'center',
         alignItems: 'center',
-        margin:5,
+        width: '300px',
+        marginBottom: '15px',
+        borderWidth: 1,
+        borderRadius: '10px'
     },
 });
