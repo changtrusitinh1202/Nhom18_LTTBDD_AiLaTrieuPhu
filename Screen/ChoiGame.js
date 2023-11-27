@@ -16,14 +16,41 @@ export default function ChoiGame({navigation}){
     const [selectedBottomButton3, setSelectedBottomButton3] = useState(null);
     const [selectedBottomButton4, setSelectedBottomButton4] = useState(null);
     const [key, setKey] = useState(0); // State để render lại CountdownCircleTimer
-    const [buttonEnabled, setButtonEnabled] = useState(true);
+    const [buttonEnabled1, setButtonEnabled1] = useState(true);
+    const [buttonEnabled2, setButtonEnabled2] = useState(true);
+    const [buttonEnabled3, setButtonEnabled3] = useState(true);
+    const [buttonEnabled4, setButtonEnabled4] = useState(true);
 
-    const handleBottomButtonPress = (buttonName) => {
+    const handleBottomButton1= (buttonName) => {
         // Chặn các hành động khi nút đã được kích hoạt
-        if (!buttonEnabled) {
+        if (!buttonEnabled1) {
             return;         
         }
-        setButtonEnabled(false);
+        setButtonEnabled1(false);
+    };
+
+    const handleBottomButton2 = (buttonName) => {
+        // Chặn các hành động khi nút đã được kích hoạt
+        if (!buttonEnabled2) {
+            return;         
+        }
+        setButtonEnabled2(false);
+    };
+
+    const handleBottomButton3 = (buttonName) => {
+        // Chặn các hành động khi nút đã được kích hoạt
+        if (!buttonEnabled3) {
+            return;         
+        }
+        setButtonEnabled3(false);
+    };
+
+    const handleBottomButton4 = (buttonName) => {
+        // Chặn các hành động khi nút đã được kích hoạt
+        if (!buttonEnabled3) {
+            return;         
+        }
+        setButtonEnabled3(false);
     };
 
     //Xử lý quyền trợ giúp 50/50
@@ -70,7 +97,7 @@ export default function ChoiGame({navigation}){
         const updatedQuestions = [...questions];
         updatedQuestions[currentQuestion] = updatedQuestionData;
         setQuestions(updatedQuestions);
-        handleBottomButtonPress(selectedBottomButton1);
+        handleBottomButton1(selectedBottomButton1);
     };
     //Xử lý quyền trợ giúp hỏi chuyên gia 
     const dapanchuyengia=getRandomElement(["A","B","C","D"]);
@@ -81,7 +108,7 @@ export default function ChoiGame({navigation}){
         setTimeout(() => {
             setShowModal2(false);
             }, 3000);
-        handleBottomButtonPress(selectedBottomButton2);
+            handleBottomButton2(selectedBottomButton2);
     };
     // Xử lý quyền trợ giúp hỏi ý kiến khán giả
     const A = Math.floor(Math.random() * 99) + 1;
@@ -102,15 +129,32 @@ export default function ChoiGame({navigation}){
         setTimeout(() => {
             setShowModal3(false);
             }, 3000);
-         handleBottomButtonPress(selectedBottomButton3);
+            handleBottomButton1(selectedBottomButton3);
     };
     const handleBottomButtonPress4 = (selectedBottomButton4) => {
         setSelectedBottomButton4(selectedBottomButton4);
-        handleBottomButtonPress(selectedBottomButton4);
+        handleBottomButton4(selectedBottomButton4);
     };
     const handleTimerComplete = () => {
       setShowModal(true); // Hiển thị modal khi remainingTime = 0
+      addPost('huyhuy', score);
     };
+
+    function addPost(userName, score){
+        fetch('https://653f25b39e8bd3be29e0007b.mockapi.io/huy',{
+            method: 'POST',
+            body: JSON.stringify({
+                user_name: userName,
+                score: score
+            }),
+            headers: {
+                'Content-type': 'application/json; charset=UTF-8',
+            },
+    
+        })
+            .then(response => response.json())
+            .then(json => console.log(json));
+    }
 
    
 
@@ -227,19 +271,19 @@ export default function ChoiGame({navigation}){
 
                 <View style={styles.bottom}>
                     <TouchableOpacity style={styles.bottomButton}
-                    onPress={() => handleBottomButtonPress1('button1')} disabled={!buttonEnabled}> 
+                    onPress={() => handleBottomButtonPress1('button1')} disabled={!buttonEnabled1}> 
                         <Image style={styles.bottomIcon} source={selectedBottomButton1 === 'button1'? require('../assets/5050used.png'): require('../assets/5050.png')}/>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.bottomButton}
-                    onPress={() => handleBottomButtonPress2('button2')} disabled={!buttonEnabled}> 
+                    onPress={() => handleBottomButtonPress2('button2')} disabled={!buttonEnabled2}> 
                         <Image style={styles.bottomIcon} source={selectedBottomButton2 === 'button2'? require('../assets/A3Aused.png'): require('../assets/A3A.png')}/>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.bottomButton}
-                    onPress={() => handleBottomButtonPress3('button3')} disabled={!buttonEnabled}> 
+                    onPress={() => handleBottomButtonPress3('button3')} disabled={!buttonEnabled3}> 
                         <Image style={styles.bottomIcon} source={selectedBottomButton3 === 'button3'? require('../assets/ATAused.png'): require('../assets/ATA.png')}/>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.bottomButton}
-                    onPress={() => handleBottomButtonPress4('button4')} disabled={!buttonEnabled}> 
+                    onPress={() => handleBottomButtonPress4('button4')} disabled={!buttonEnabled4}> 
                         <Image style={styles.bottomIcon} source={selectedBottomButton4 === 'button4'? require('../assets/PAFused.png'): require('../assets/PAF.png')}/>
                     </TouchableOpacity>
                 </View>       

@@ -1,11 +1,6 @@
 import { ImageBackground, Pressable, StyleSheet, Text, TouchableOpacity, View , Modal} from 'react-native';
 import React, { useEffect, useState } from "react";
 
-// const DiemCao = (props) => {
-//     const closeModal = (bool, data) => {
-//         props.changeModalVisible(bool);
-//         props.setData(data);
-//     };
 export default function DiemCao(){
     var stt = 0;
     var [dulieu, setDuLieu] = useState([]);
@@ -44,7 +39,7 @@ export default function DiemCao(){
                             return(
                                 <View style={styles.head}>
                                     <Text style={styles.text}>{stt}</Text> 
-                                    <Text style={styles.text}>{item.name}</Text>   
+                                    <Text style={styles.text}>{item.user_name}</Text>   
                                     <Text style={styles.text}>{item.score}</Text>   
                                 </View>
                             )
