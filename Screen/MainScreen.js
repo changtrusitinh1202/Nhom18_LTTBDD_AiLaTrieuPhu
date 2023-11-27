@@ -3,12 +3,14 @@ import { ImageBackground, Pressable, StyleSheet, Text, TouchableOpacity, View , 
 import AwesomeAlert from 'react-native-awesome-alerts'
 import LuatChoi from './LuatChoi';
 import { useState } from 'react';
-import { DiemCao } from './DiemCao';
+import { FontAwesome5 } from '@expo/vector-icons'; 
+import { Feather } from '@expo/vector-icons'; 
+
 export default function MainScreen({navigation}){
     const [showAlert, setShowAlert] = useState(false);
     const [color, setChangeColor] = useState(false);
     const message = `Bạn sẽ phải trả lời 15 câu hỏi của chương trình.` + 
-    ` Có 3 mốc rất quan trọng mà bạn cần vượt qua là 5,10,15. Bạn có 4 sự trợ giúp: 50/50, đổi câu hỏi, hỏi ý kiến của khán giả`+
+    ` Bạn sẽ có 30s đầu tiên để trả lời câu hỏi, mỗi câu hỏi trả lời đúng sẽ được cộng thêm 10 giây`+
     ` và gọi điện thoại cho chuyên gia. Chúc bạn thành công!`
     const [isModalVisible, setModalVisible] = useState(false);
     const [chooseData, setChooseData] = useState();
@@ -26,22 +28,40 @@ export default function MainScreen({navigation}){
                 source={require('../assets/gradient1.jpg')}
                 resizeMode='cover'          
             >
+                <View style={styles.icon}>
+                    <ImageBackground
+                        style={styles.iconHead} 
+                        source={require('../assets/userMan.png')}
+                    >
+                    <Text style={styles.user}>Tên user</Text>
+                    </ImageBackground>
+                  
+                    <TouchableOpacity style={styles.bottomButton} onPress={() => alert('hi')}>
+                        <ImageBackground
+                            style={styles.iconHead} 
+                            source={require('../assets/setting.png')}
+                        >
+                        </ImageBackground>
+                    </TouchableOpacity>
+                   
+                
+                </View>
                 <View style={styles.top}>
+                   
                     <ImageBackground
                         style={styles.logo} 
                         source={require('../assets/altp2023.png')}
-                        resizeMode='cover'
                     >
                     </ImageBackground>
                 </View>
 
                 <View style={styles.bottom}>
-                    <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('ChoiGame')}>Bắt đầu</TouchableOpacity>
-                    <TouchableOpacity style={styles.button} onPress={() => changeModalVisible(true)}>Điểm cao</TouchableOpacity> 
-                    <TouchableOpacity style={styles.button} onPress={() => setShowAlert(!showAlert)}>Luật chơi</TouchableOpacity>
+                    <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('ChoiGame')}>Bắt Đầu</TouchableOpacity>
+                    <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('DiemCao')}>Bảng Xếp Hạng</TouchableOpacity> 
+                    <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('LuatChoi')}>Luật Chơi</TouchableOpacity>
                 </View>
 
-                <AwesomeAlert 
+                {/* <AwesomeAlert 
                     show={showAlert} 
                     title='Luật chơi' message={message}
                     titleStyle={{fontSize: '25px'}}
@@ -53,22 +73,10 @@ export default function MainScreen({navigation}){
                         setShowAlert(false);
                     }}
                 >
-                </AwesomeAlert>
+                </AwesomeAlert> */}
     
             </ImageBackground>
            
-           <Modal
-                transparent={true}
-                animationType='fade'
-                visible={isModalVisible} 
-                onRequestClose={() => changeModalVisible(false)}
-           >
-                <DiemCao
-                    changeModalVisible={changeModalVisible}
-                    setData={setData}
-                
-                ></DiemCao>
-           </Modal>
         </View>
     )
 }
@@ -113,6 +121,32 @@ const styles = StyleSheet.create({
         marginBottom: '15px',
         borderWidth: 1,
         borderRadius: '10px'
-    }
+    },
+
+    icon:{
+        flexDirection: 'row',
+        marginTop: '10px',
+        justifyContent: 'space-between'
+    },
+
+    iconHead:{
+        width: '40px',
+        height: '40px'
+    },
+
+
+    user:{
+        width: '100px',
+        color:'white',
+        fontSize: '16px',
+        marginLeft: '50px',
+        marginTop: '5px',
+        color: '#FFFF00'
+    },
+
+    bottomButton: {
+        width: '15%',
+        height: '100%',
+    },
 });
 

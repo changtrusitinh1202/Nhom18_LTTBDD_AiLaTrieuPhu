@@ -1,12 +1,13 @@
 import { ImageBackground, Pressable, StyleSheet, Text, TouchableOpacity, View , Modal} from 'react-native';
 import React, { useEffect, useState } from "react";
 
-const DiemCao = (props) => {
-    const closeModal = (bool, data) => {
-        props.changeModalVisible(bool);
-        props.setData(data);
-    };
-
+// const DiemCao = (props) => {
+//     const closeModal = (bool, data) => {
+//         props.changeModalVisible(bool);
+//         props.setData(data);
+//     };
+export default function DiemCao(){
+    var stt = 0;
     var [dulieu, setDuLieu] = useState([]);
     useEffect(() => {
         fetch('https://653f25b39e8bd3be29e0007b.mockapi.io/huy')
@@ -14,7 +15,12 @@ const DiemCao = (props) => {
             .then(json => {
                 setDuLieu(json);           
             });
-    }, [dulieu]);
+    }, []);
+
+    function compareScores(a, b) {
+        return b.score - a.score;
+        }
+    const dulieusort = dulieu.sort(compareScores);
     return(
         <View style={styles.container}>
             <ImageBackground
@@ -23,20 +29,21 @@ const DiemCao = (props) => {
               
             >
                 <View style={styles.top}>
-                    <Text style={{fontSize: '22px', color: '#FFFF00', fontWeight: '600'}}>Điểm cao</Text>          
+                    <Text style={{fontSize: '30px', color: '#FFFF00', fontWeight: '600'}}>Bảng xếp hạng</Text>          
                 </View>
 
                 <View style={styles.center}>
                     <View style={styles.head}>
                         <Text style={styles.text}>STT</Text> 
                         <Text style={styles.text}>Tên người chơi</Text>   
-                        <Text style={styles.text}>Tiền thưởng</Text>   
+                        <Text style={styles.text}>Điểm</Text>   
                     </View>
                     {
-                        dulieu.map((item) => {
+                        dulieusort.map((item) => {
+                            stt = stt + 1
                             return(
                                 <View style={styles.head}>
-                                    <Text style={styles.text}>{item.id}</Text> 
+                                    <Text style={styles.text}>{stt}</Text> 
                                     <Text style={styles.text}>{item.name}</Text>   
                                     <Text style={styles.text}>{item.score}</Text>   
                                 </View>
@@ -46,25 +53,19 @@ const DiemCao = (props) => {
                   
 
                 </View>
-
-             
-                <View style={styles.bottom}>
-                    <TouchableOpacity style={styles.opa} onPress={() => closeModal(false, 'Xác nhận')}>
-                        <Text>Xác nhận</Text>
-                    </TouchableOpacity>
-                </View>
+           
             </ImageBackground>
             
         </View>
     )
 }
 
+
 const styles = StyleSheet.create({
     container:{
-        width: '90%',
+        width: '100%',
         justifyContent: 'center',
         alignItems: 'center',
-        marginLeft : '40px',
         flex: 1
     },
 
@@ -72,23 +73,24 @@ const styles = StyleSheet.create({
         height: '10%',
         justifyContent: 'center',
         alignItems: 'center',
-        width: '90%',
+        width: '100%',
+        marginBottom: '20px'
     },
 
     gradient:{
-        width: '90%',
-        height: '70%',
+        width: '100%',
+        height: '100%',
       
     },
 
     center:{
         flexDirection: 'column',
-        width: '90%',
+        width: '100%',
         height: '50%'
     },
 
     text:{
-        fontSize: '14px',
+        fontSize: '16px',
         color: '#FFFF00',
         fontWeight: '600'
     },
@@ -99,21 +101,11 @@ const styles = StyleSheet.create({
         marginRight: '20px'
     },
 
-    opa:{
-        color: 'white',
-        width: '100px',
-        height: '40px',
-        backgroundColor: '#0099FF',
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderRadius: '10px'
-    },
 
     head:{
         flexDirection: 'row',
-        justifyContent: 'space-between'
+        justifyContent: 'space-around'
     }
 
 });
 
-export {DiemCao}

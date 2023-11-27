@@ -1,19 +1,118 @@
 import { StatusBar } from 'expo-status-bar';
-import { ImageBackground, Pressable, StyleSheet, Text, TouchableOpacity, View , Modal} from 'react-native';
+import { ImageBackground, Pressable,Image, StyleSheet, Text, TouchableOpacity, View , Modal, Button} from 'react-native';
 import {CountdownCircleTimer} from 'react-countdown-circle-timer'
 import { useState, useEffect } from 'react';
+import { BarChart } from 'react-native-chart-kit';
 export default function ChoiGame({navigation}){
-    const [showModal, setShowModal] = useState(false);
+    const [showModal, setShowModal] = useState(false); 
+    const [showModal2, setShowModal2] = useState(false);
+    const [showModal3, setShowModal3] = useState(false);
+    const [selectedAnswer, setSelectedAnswer] = useState(null);
     const [currentQuestion, setCurrentQuestion] = useState(0);
-    const [score, setScore] = useState(0);
-    const [key, setKey] = useState(30); // State để reset CountdownCircleTimer
-    const [timeRemaining, setTimeRemaining] = useState(30);
-    const [time, setTime] = useState(0);
+    const [isCorrect, setIsCorrect] = useState(false);
+    const [score, setScore] = useState(0); // State để tính điểm
+    const [selectedBottomButton1, setSelectedBottomButton1] = useState(null);
+    const [selectedBottomButton2, setSelectedBottomButton2] = useState(null);
+    const [selectedBottomButton3, setSelectedBottomButton3] = useState(null);
+    const [selectedBottomButton4, setSelectedBottomButton4] = useState(null);
+    const [key, setKey] = useState(0); // State để render lại CountdownCircleTimer
+    const [buttonEnabled, setButtonEnabled] = useState(true);
+
+    const handleBottomButtonPress = (buttonName) => {
+        // Chặn các hành động khi nút đã được kích hoạt
+        if (!buttonEnabled) {
+            return;         
+        }
+        setButtonEnabled(false);
+    };
+
+    //Xử lý quyền trợ giúp 50/50
+    const getRandomElement = (arr) => {
+        const randomIndex = Math.floor(Math.random() * arr.length);
+        return arr[randomIndex];
+    };
+    const handleBottomButtonPress1 = (selectedBottomButton1) => {
+        setSelectedBottomButton1(selectedBottomButton1);
+        const currentQuestionData = questions[currentQuestion];
+    
+        // Lấy tất cả các đáp án
+        const answerOptions = ['answer1', 'answer2', 'answer3', 'answer4'];
+    
+        // Lấy đáp án đúng
+        const correctAnswer = currentQuestionData.correctAnswer;
+    
+        // Lọc ra các đáp án sai 
+        const incorrectAnswers = [];
+        if (currentQuestionData.answer1 !== correctAnswer) {
+            incorrectAnswers.push('answer1');
+        }
+        if (currentQuestionData.answer2 !== correctAnswer) {
+            incorrectAnswers.push('answer2');
+        }
+        if (currentQuestionData.answer3 !== correctAnswer) {
+            incorrectAnswers.push('answer3');
+        }
+        if (currentQuestionData.answer4 !== correctAnswer) {
+            incorrectAnswers.push('answer4');
+        }
+        // Lựa chọn ngẫu nhiên 1 đáp án sai để ẩn đi
+        const incorrectAnswerToHide1 = getRandomElement(incorrectAnswers);
+        const incorrectAnswerToHide2 = getRandomElement(incorrectAnswers);
+    
+        // Tạo một object mới đại diện cho trạng thái câu hỏi được cập nhật
+        const updatedQuestionData = {
+            ...currentQuestionData,
+            [incorrectAnswerToHide1]: '',  // Ẩn đáp án sai
+            [incorrectAnswerToHide2]: '',  // Ẩn đáp án sai
+        };
+    
+        // Cập nhật state questions
+        const updatedQuestions = [...questions];
+        updatedQuestions[currentQuestion] = updatedQuestionData;
+        setQuestions(updatedQuestions);
+        handleBottomButtonPress(selectedBottomButton1);
+    };
+    //Xử lý quyền trợ giúp hỏi chuyên gia 
+    const dapanchuyengia=getRandomElement(["A","B","C","D"]);
+
+    const handleBottomButtonPress2 = (selectedBottomButton2) => {
+        setSelectedBottomButton2(selectedBottomButton2);
+        setShowModal2(true);
+        setTimeout(() => {
+            setShowModal2(false);
+            }, 3000);
+        handleBottomButtonPress(selectedBottomButton2);
+    };
+    // Xử lý quyền trợ giúp hỏi ý kiến khán giả
+    const A = Math.floor(Math.random() * 99) + 1;
+    const B = Math.floor(Math.random() * 99) + 1;
+    const C = Math.floor(Math.random() * 99) + 1;
+    const D = Math.floor(Math.random() * 99) + 1;
+    const data = {
+        labels: ['A', 'B', 'C', 'D'],
+        datasets: [
+          {
+            data: [A, B, C, D], 
+          },
+        ],
+      };
+    const handleBottomButtonPress3 = (selectedBottomButton3) => {
+        setSelectedBottomButton3(selectedBottomButton3);
+        setShowModal3(true);
+        setTimeout(() => {
+            setShowModal3(false);
+            }, 3000);
+         handleBottomButtonPress(selectedBottomButton3);
+    };
+    const handleBottomButtonPress4 = (selectedBottomButton4) => {
+        setSelectedBottomButton4(selectedBottomButton4);
+        handleBottomButtonPress(selectedBottomButton4);
+    };
     const handleTimerComplete = () => {
       setShowModal(true); // Hiển thị modal khi remainingTime = 0
     };
 
-  
+   
 
     const [questions, setQuestions] = useState([]);
     useEffect(() => {
@@ -35,26 +134,31 @@ export default function ChoiGame({navigation}){
             console.error('Error fetching data:', error);
           });
       }, []);
+
+
       const handleAnswer = (selectedAnswer) => {
         if (selectedAnswer === questions[currentQuestion].correctAnswer) {
-          setScore(score + 1);
-          
-    
-          if (currentQuestion === questions.length - 1) {
-            // Nếu là câu hỏi cuối cùng, có thể hiển thị điểm số hoặc thực hiện hành động khác
-            handleTimerComplete();
-          } else {
-            setCurrentQuestion(currentQuestion + 1);
-       
-            setTimeRemaining((prev) => prev + 29);
-          }
-        } else {
-          // Hiển thị thông báo nếu chọn đáp án sai
-          handleTimerComplete();
-        }
+            setSelectedAnswer(selectedAnswer);
+            setTimeout(() => {
+                setIsCorrect(true);
+                setScore(score + 100);
+                setTimeout(() => {
+                    setIsCorrect(false);
+                    setSelectedAnswer(null);
+                    setCurrentQuestion(currentQuestion + 1); // Chuyển sang câu hỏi tiếp theo
+                    setKey(prevKey => prevKey + 1);
+                  }, 1000);
+                }, 1000);
+            }else{
+                setSelectedAnswer(selectedAnswer);
+                setTimeout(() => {
+                    setIsCorrect(true);
+                    handleTimerComplete();
+                    }, 1000);
+            }
       };
     return(
-        <View style={styles.container}>
+        <View style={styles.container} animationType={'slide'}>
             <ImageBackground
                 style={styles.gradient} 
                 source={require('../assets/gradient1.jpg')}
@@ -63,7 +167,7 @@ export default function ChoiGame({navigation}){
                 <View style={styles.top}>
                     <ImageBackground
                         style={styles.logo} 
-                        source={require('../assets/altp2023.png')}
+                        source={require('../assets/ALTP_LOGO_2021.png')}
                         resizeMode='cover'
                     >
                     </ImageBackground>
@@ -71,10 +175,11 @@ export default function ChoiGame({navigation}){
                         <Text style={styles.score}>Điểm: {score}</Text>
                         <CountdownCircleTimer
                             isPlaying
-                            duration={timeRemaining}
+                            duration={30}
                             colors={['blue']}
                             size={70}
                             strokeWidth={5}
+                            key={key} //reset lại duration của CountdownCircleTimer
                             onComplete={handleTimerComplete}
                         
                         >
@@ -94,19 +199,19 @@ export default function ChoiGame({navigation}){
                                     </View>
 
                                     <View style={styles.answer}>
-                                        <TouchableOpacity style={styles.traloi}  onPress={() => handleAnswer(questions[currentQuestion].answer1)}> 
+                                        <TouchableOpacity style={[styles.traloi, selectedAnswer === questions[currentQuestion].answer1 && styles.selectedAnswer, isCorrect && questions[currentQuestion].answer1 === questions[currentQuestion].correctAnswer && styles.correctAnswer,]}  onPress={() => handleAnswer(questions[currentQuestion].answer1)}> 
                                             <Text style={styles.textAns}>A. {questions[currentQuestion].answer1}</Text>
                                         </TouchableOpacity>
 
-                                        <TouchableOpacity style={styles.traloi} onPress={() => handleAnswer(questions[currentQuestion].answer2)} > 
+                                        <TouchableOpacity style={[styles.traloi, selectedAnswer === questions[currentQuestion].answer2 && styles.selectedAnswer, isCorrect && questions[currentQuestion].answer2 === questions[currentQuestion].correctAnswer && styles.correctAnswer,]} onPress={() => handleAnswer(questions[currentQuestion].answer2)} > 
                                             <Text style={styles.textAns}>B. {questions[currentQuestion].answer2}</Text>
                                         </TouchableOpacity>
 
-                                        <TouchableOpacity style={styles.traloi}  onPress={() => handleAnswer(questions[currentQuestion].answer3)}> 
+                                        <TouchableOpacity style={[styles.traloi, selectedAnswer === questions[currentQuestion].answer3 && styles.selectedAnswer, isCorrect && questions[currentQuestion].answer3 === questions[currentQuestion].correctAnswer && styles.correctAnswer,]}  onPress={() => handleAnswer(questions[currentQuestion].answer3)}> 
                                             <Text style={styles.textAns}>C. {questions[currentQuestion].answer3}</Text>
                                         </TouchableOpacity>
 
-                                        <TouchableOpacity style={styles.traloi}  onPress={() => handleAnswer(questions[currentQuestion].answer4)}> 
+                                        <TouchableOpacity style={[styles.traloi, selectedAnswer === questions[currentQuestion].answer4 && styles.selectedAnswer, isCorrect && questions[currentQuestion].answer4 === questions[currentQuestion].correctAnswer && styles.correctAnswer,]}  onPress={() => handleAnswer(questions[currentQuestion].answer4)}> 
                                             <Text style={styles.textAns}>D. {questions[currentQuestion].answer4}</Text>
                                         </TouchableOpacity>
                                     </View>
@@ -119,7 +224,25 @@ export default function ChoiGame({navigation}){
                     }
                        
                 </View>
-                                
+
+                <View style={styles.bottom}>
+                    <TouchableOpacity style={styles.bottomButton}
+                    onPress={() => handleBottomButtonPress1('button1')} disabled={!buttonEnabled}> 
+                        <Image style={styles.bottomIcon} source={selectedBottomButton1 === 'button1'? require('../assets/5050used.png'): require('../assets/5050.png')}/>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.bottomButton}
+                    onPress={() => handleBottomButtonPress2('button2')} disabled={!buttonEnabled}> 
+                        <Image style={styles.bottomIcon} source={selectedBottomButton2 === 'button2'? require('../assets/A3Aused.png'): require('../assets/A3A.png')}/>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.bottomButton}
+                    onPress={() => handleBottomButtonPress3('button3')} disabled={!buttonEnabled}> 
+                        <Image style={styles.bottomIcon} source={selectedBottomButton3 === 'button3'? require('../assets/ATAused.png'): require('../assets/ATA.png')}/>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.bottomButton}
+                    onPress={() => handleBottomButtonPress4('button4')} disabled={!buttonEnabled}> 
+                        <Image style={styles.bottomIcon} source={selectedBottomButton4 === 'button4'? require('../assets/PAFused.png'): require('../assets/PAF.png')}/>
+                    </TouchableOpacity>
+                </View>       
             
                 <Modal
                     visible={showModal}
@@ -142,6 +265,56 @@ export default function ChoiGame({navigation}){
                         </ImageBackground>
                     </View>
                 </Modal>
+                <Modal
+                    visible={showModal2}
+                    animationType="slide"
+                    transparent={true}
+                    onRequestClose={() => setShowModal2(false)}
+                >
+                    <View style={styles.modal}>
+                        <ImageBackground
+                            style={styles.gradient2} 
+                            source={require('../assets/gradient1.jpg')}
+                        >
+                            <View style={styles.top2}>
+                                <Text style={styles.text2}>Chuyên gia khuyên là đáp án :{dapanchuyengia}</Text>
+                            </View>
+                        </ImageBackground>
+                    </View>
+                </Modal>
+                <Modal
+                    visible={showModal3}
+                    animationType="slide"
+                    transparent={true}
+                    onRequestClose={() => setShowModal3(false)}
+                >
+                    <View style={styles.modal3}>
+                        <ImageBackground
+                            style={styles.gradient2} 
+                            source={require('../assets/gradient1.jpg')}
+                        >
+                            <View style={styles.Modaltop2}>
+                                <BarChart
+                                style={styles.chart}
+                                data={data}
+                                width={300} 
+                                height={220} 
+                                yAxisLabel="%" 
+                                chartConfig={{
+                                    backgroundColor: 'white',
+                                    decimalPlaces: 0,
+                                    color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+                                    style: {
+                                         borderRadius: 16,
+                                    },
+                                }}
+                                verticalLabelRotation={0} 
+                                >
+                                </BarChart>
+                            </View>
+                        </ImageBackground>
+                    </View>
+                </Modal>
             </ImageBackground>
         </View>
     )
@@ -160,7 +333,7 @@ const styles = StyleSheet.create({
     logo:{
         width: '150px',
         height: '150px',
-        marginTop: '35px'
+        marginTop: '50px'
     },
 
     top:{
@@ -170,14 +343,32 @@ const styles = StyleSheet.create({
     },
 
     center: {
-        height: '80%',
+        height: '70%',
         justifyContent: 'center',
         alignItems: 'center'
     },
 
+    bottom:{
+        height: '15%',
+        flexDirection:'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginLeft:'15px',
+    },
+
+    bottomButton: {
+        width: '15%',
+        height: '100%',
+    },
+
+    bottomIcon: {
+        width: '45px',
+        height: '30px',
+    },
+
     question:{
         width: '80%',
-        height: '120px',
+        height: '80px',
         borderWidth: 2,
         justifyContent: 'center',
         alignItems: 'center',
@@ -203,13 +394,21 @@ const styles = StyleSheet.create({
 
     traloi:{
         width: '100%',
-        height: '60px',
+        height: '40px',
         borderWidth: 1.5,
         paddingLeft: '5px',
         justifyContent: 'center',
         marginBottom: '20px',
         borderColor: '#0066FF',
         borderRadius: '10px',
+    },
+
+    selectedAnswer: {
+        backgroundColor: 'green', 
+    },
+
+    correctAnswer: {
+        backgroundColor: 'yellow', 
     },
 
     textAns:{
@@ -241,7 +440,14 @@ const styles = StyleSheet.create({
         marginLeft : '40px',
         flex: 1
     },
-
+    modal3:{
+        width: '90%',
+        height:'60%',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginLeft : '40px',
+        flex: 1
+    },
     gradient2:{
         width: '90%',
         height: '50%',
@@ -256,7 +462,14 @@ const styles = StyleSheet.create({
         marginTop: '20px'
    
     },
-
+    Modaltop2:{
+        justifyContent: 'center',
+        alignItems: 'center',
+        alignItems: 'center',
+        width: '90%',
+        marginTop: '20px'
+   
+    },
     text2:{
         color: 'white',
         fontSize: '20px'
@@ -277,5 +490,9 @@ const styles = StyleSheet.create({
         width: '100%',
         justifyContent: 'center',
         alignItems: 'center'
-    }
+    },
+    chart: {
+        marginVertical: 8,
+        borderRadius: 16,
+    },
 });
