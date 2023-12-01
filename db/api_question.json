@@ -1,0 +1,144 @@
+[
+    {
+        "id":1,
+        "tile":"bộ câu hỏi 1",
+        "questions":[
+            {
+                "question_id":1,
+                "topic":"Giải Grand Slam đầu tiên trong năm là giải nào",
+                "answer1":"Wimbledon",
+                "answer2":"Roland Garos",
+                "answer3":"Austrlia mở rộng",
+                "answer4":"Mỹ mở rộng",
+                "correct_answer":"Austrlia mở rộng"
+            },
+            {
+                "question_id":2,
+                "topic":"Cùng với Hà Nội T&T (vô địch V-League 2010), CLB nào của Việt Nam tham dự AFC Cup 2011?",
+                "answer1":"Sông Lam Nghệ An",
+                "answer2":"Hoàng Anh Gia Lai",
+                "answer3":"Becamex Bình Dương",
+                "answer4":"SHB Đà Nẵng",
+                "correct_answer":"SHB Đà Nẵng"
+            },
+            {
+                "question_id":3,
+                "topic":"AFC Asian Cup 2011 được tổ chức tại quốc gia nào?",
+                "answer1":"Hàn Quốc",
+                "answer2":"Nhật Bản",
+                "answer3":"Qatar",
+                "answer4":"Iraq",
+                "correct_answer":"Qatar"
+            },
+            {
+                "question_id":4,
+                "topic":"Ai là nhạc sĩ Việt Nam đầu tiên viết opera với tác phẩm “Cô sao” và sau đó là “Người tạc tượng”?",
+                "answer1":"Trọng Đài",
+                "answer2":"Hoàng Vân",
+                "answer3":"Trần Hoàn",
+                "answer4":"Đỗ Nhuận",
+                "correct_answer":"Đỗ Nhuận"
+            },
+            {
+                "question_id":5,
+                "topic":"Sông Bến Hải và sông Thạch Hãn nằm ở tỉnh nào?",
+                "answer1":"Quảng Ninh",
+                "answer2":"Quảng Trị",
+                "answer3":"Quảng Bình",
+                "answer4":"Quảng Ngãi",
+                "correct_answer":"Quảng Bình"
+            },
+            {
+                "question_id":6,
+                "topic":"Trong các cây cầu sau, cầu nào là cầu xoay?",
+                "answer1":"Cầu Thanh Trì",
+                "answer2":"Cầu Thị Nại",
+                "answer3":"Cầu Sông Hàn",
+                "answer4":"Cầu Cần Thơ",
+                "correct_answer":"Cầu Cần Thơ"
+            },
+            {
+                "question_id":7,
+                "topic":"Đại Ngu là quốc hiệu của triều đại nào?",
+                "answer1":"Triều Ngô",
+                "answer2":"Triều Hồ",
+                "answer3":"Các chúa Nguyễn",
+                "answer4":"Nhà Tây Sơn",
+                "correct_answer":"Nhà Tây Sơn"
+            },
+            {
+                "question_id":8,
+                "topic":"Các vua Hùng đặt quốc hiệu nước ta là gì?",
+                "answer1":"Văn Lang",
+                "answer2":"Âu Lạc",
+                "answer3":"Vạn Xuân",
+                "answer4":"Đại Việt",
+                "correct_answer":"Văn Lang"
+            },
+            {
+                "question_id":9,
+                "topic":"An Dương Vương đặt quốc hiệu nước ta là gì?",
+                "answer1":"Âu Lạc",
+                "answer2":"Vạn Xuân",
+                "answer3":"Đại Cồ Việt",
+                "answer4":"Đại Việt",
+                "correct_answer":"Âu Lạc"
+            },
+            {
+                "question_id":10,
+                "topic":"Năm 1010, Lý Thái Tổ đã cho xây dựng điện nào ở trung tâm hoàng thành Thăng Long?",
+                "answer1":"Điện Kính Thiên",
+                "answer2":"Điện Càn Nguyên",
+                "answer3":"Điện Càn Chánh",
+                "answer4":"Điện Càn Thành",
+                "correct_answer":"Điện Kính Thiên"
+            },
+            {
+                "question_id":11,
+                "topic":"Bài thơ Điêu Tàn là tập thơ đầu tiên của nhà thơ nào?",
+                "answer1":"Anh Thơ",
+                "answer2":"Thế Lữ",
+                "answer3":"Chế Lan Viên",
+                "answer4":"Bích Khê",
+                "correct_answer":"Thế Lữ"
+            },
+            {
+                "question_id":12,
+                "topic":"Hội nghị chống biến đổi khí hậu lần thứ 17- 2011 được tổ chức tại nước nào?",
+                "answer1":"Đan Mạch",
+                "answer2":"Mexico",
+                "answer3":"Nam Phi",
+                "answer4":"Quatar",
+                "correct_answer":"Nam Phi"
+            },
+            {
+                "question_id":13,
+                "topic":"Tỉnh nào đăng cai tổ chức Năm du lịch Quốc gia 2012?",
+                "answer1":"Thừa Thiên Huế",
+                "answer2":"Nha Trang",
+                "answer3":"Hải Phòng",
+                "answer4":"Thanh Hóa",
+                "correct_answer":"Thừa Thiên Huế"
+            },
+            {
+                "question_id":14,
+                "topic":"Sự kiện giờ Trái Đất, sáng kiến của WWF được tổ chức lần đầu tiên vào năm 2007 tại thành phố nào?",
+                "answer1":"ToKyo",
+                "answer2":"Sydney",
+                "answer3":"Bắc Kinh",
+                "answer4":"Singapore",
+                "correct_answer":"Sydney"
+            },
+            {
+                "question_id":15,
+                "topic":"Cúm và sởi là những bệnh lây truyền qua đường nào?",
+                "answer1":"Hô hấp",
+                "answer2":"Tiêu hóa",
+                "answer3":"Sinh dục",
+                "answer4":"Máu",
+                "correct_answer":"Hô hấp"
+            }
+
+        ]
+    }
+]
