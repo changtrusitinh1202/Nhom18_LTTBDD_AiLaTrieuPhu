@@ -7,7 +7,7 @@ import { FontAwesome5 } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons'; 
 
 export default function MainScreen({navigation, route}){
-    // const { user_name } = route.params;
+    // const { user_name } = route.p.arams;
     const message = `Bạn sẽ phải trả lời 15 câu hỏi của chương trình.` + 
     ` Bạn sẽ có 30s đầu tiên để trả lời câu hỏi, mỗi câu hỏi trả lời đúng sẽ được cộng thêm 10 giây`+
     ` và gọi điện thoại cho chuyên gia. Chúc bạn thành công!`
